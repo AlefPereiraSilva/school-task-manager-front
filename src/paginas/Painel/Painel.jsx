@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import BarraProgresso from '../../componentes/BarraProgresso/BarraProgresso.jsx' // página inicial do site.
 import Cabecalho from '../../componentes/Cabecalho/Cabecalho.jsx'
 import CartaoResumo from '../../componentes/CartaoResumo/CartaoResumo.jsx'
+import ListaTarefas from '../../componentes/ListaTarefas/ListaTarefas.jsx'
 import tarefasDeExemplo from '../../dados/tarefasDeExemplo.js'
 import './Painel.css'
 
@@ -13,11 +15,29 @@ function pegarHoje() {
 }
 
 function Painel() {
-  const tarefas = tarefasDeExemplo
+  // Quando as tarefas mudam a tela atualiza sozinha.
+  const [tarefas, setTarefas] = useState(tarefasDeExemplo)
   const hoje = pegarHoje()
   const pendentes = tarefas.filter((tarefa) => !tarefa.concluida)
   const concluidas = tarefas.filter((tarefa) => tarefa.concluida)
   const atrasadas = pendentes.filter((tarefa) => tarefa.dataEntrega < hoje)
+
+  // Marca ou desmarca uma tarefa como concluída
+  function marcarTarefa(id) {
+    const novasTarefas = tarefas.map((tarefa) => {
+      if (tarefa.id === id) {
+        return { ...tarefa, concluida: !tarefa.concluida }
+      }
+      return tarefa
+    })
+    setTarefas(novasTarefas)
+  }
+
+  // Tira a tarefa da lista
+  function excluirTarefa(id) {
+    const novasTarefas = tarefas.filter((tarefa) => tarefa.id !== id)
+    setTarefas(novasTarefas)
+  }
 
   return (
     <main className="painel">
@@ -34,6 +54,13 @@ function Painel() {
 
           <BarraProgresso concluidas={concluidas.length} total={tarefas.length} />
         </section>
+
+        <ListaTarefas
+          tarefas={tarefas}
+          hoje={hoje}
+          aoMarcar={marcarTarefa}
+          aoExcluir={excluirTarefa}
+        />
       </div>
     </main>
   )

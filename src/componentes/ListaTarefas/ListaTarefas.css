@@ -1,0 +1,32 @@
+/* Estilos da lista de tarefas */
+
+.lista-tarefas {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lista-tarefas-titulo {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.lista-tarefas-itens {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lista-tarefas-vazia {
+  margin: 0;
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--cor-texto-fraco);
+  background: var(--cor-cartao);
+  border: 1px dashed var(--cor-borda);
+  border-radius: 14px;
+}
