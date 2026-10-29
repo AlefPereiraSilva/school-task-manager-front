@@ -19,7 +19,7 @@ function Painel() {
   const [ordem, setOrdem] = useState('entrega')
   const [formularioAberto, setFormularioAberto] = useState(false)
 
-  // Sempre que a lista mudar, salva no navegador
+  // Sempre que a lista mudar vai salvar no navegador
   useEffect(() => {
     salvarTarefas(tarefas)
   }, [tarefas])
@@ -36,7 +36,7 @@ function Painel() {
     { id: 'concluidas', nome: 'Concluídas', quantidade: concluidas.length, lista: concluidas },
   ]
 
-  // Pega a lista do filtro escolhido
+  // Vai pegar lista do filtro escolhido
   const filtroEscolhido = filtros.find((item) => item.id === filtro)
 
   // Busca pelo título ou pela matéria

@@ -1,4 +1,4 @@
-// Funções de data usadas em várias partes do site.
+// Funções de data
 
 // Data de hoje no formato das tarefas: "2026-10-29"
 export function pegarHoje() {

@@ -1,5 +1,4 @@
-// Matérias que aparecem no formulário de nova tarefa.
-
+// Matérias da aba nova matérias
 const materias = [
   'Artes',
   'Biologia',

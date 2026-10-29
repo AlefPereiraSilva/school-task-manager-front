@@ -1,5 +1,4 @@
 // Guarda as tarefas no navegador para não sumirem ao recarregar a página.
-// Quando o back-end ficar pronto, é aqui que vamos trocar para buscar da API.
 
 const CHAVE = 'tarefas-escolares'
 
