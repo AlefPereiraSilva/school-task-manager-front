@@ -10,7 +10,7 @@ function pegarDataDeHoje() {
   return texto.charAt(0).toUpperCase() + texto.slice(1)
 }
 
-function Cabecalho({ titulo }) {
+function Cabecalho({ titulo, aoClicarNovaTarefa }) {
   const dataDeHoje = pegarDataDeHoje()
 
   return (
@@ -20,8 +20,8 @@ function Cabecalho({ titulo }) {
         <p className="cabecalho-data">{dataDeHoje}</p>
       </div>
 
-      {/* quero implementar a aba de nova tarefa aqui*/}
-      <button type="button" className="botao-principal">
+      {/* Abre a janela de nova tarefa */}
+      <button type="button" className="botao-principal" onClick={aoClicarNovaTarefa}>
         <IconeMais />
         Nova tarefa
       </button>

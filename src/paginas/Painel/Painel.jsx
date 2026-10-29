@@ -3,6 +3,7 @@ import BarraProgresso from '../../componentes/BarraProgresso/BarraProgresso.jsx'
 import Cabecalho from '../../componentes/Cabecalho/Cabecalho.jsx'
 import CartaoResumo from '../../componentes/CartaoResumo/CartaoResumo.jsx'
 import FiltrosTarefas from '../../componentes/FiltrosTarefas/FiltrosTarefas.jsx'
+import FormularioTarefa from '../../componentes/FormularioTarefa/FormularioTarefa.jsx'
 import ListaTarefas from '../../componentes/ListaTarefas/ListaTarefas.jsx'
 import PendentesPorMateria from '../../componentes/PendentesPorMateria/PendentesPorMateria.jsx'
 import ProximasEntregas from '../../componentes/ProximasEntregas/ProximasEntregas.jsx'
@@ -16,6 +17,7 @@ function Painel() {
   const [filtro, setFiltro] = useState('todas')
   const [busca, setBusca] = useState('')
   const [ordem, setOrdem] = useState('entrega')
+  const [formularioAberto, setFormularioAberto] = useState(false)
 
   const hoje = pegarHoje()
   const pendentes = tarefas.filter((tarefa) => !tarefa.concluida)
@@ -61,6 +63,19 @@ function Painel() {
     setTarefas(novasTarefas)
   }
 
+  // Coloca a tarefa nova na lista e fecha a janela
+  function adicionarTarefa(dados) {
+    const novaTarefa = {
+      id: Date.now(), // número diferente para cada tarefa
+      titulo: dados.titulo,
+      materia: dados.materia,
+      dataEntrega: dados.dataEntrega,
+      concluida: false,
+    }
+    setTarefas([...tarefas, novaTarefa])
+    setFormularioAberto(false)
+  }
+
   // Tira a tarefa da lista
   function excluirTarefa(id) {
     const novasTarefas = tarefas.filter((tarefa) => tarefa.id !== id)
@@ -70,7 +85,7 @@ function Painel() {
   return (
     <main className="painel">
       <div className="painel-conteudo">
-        <Cabecalho titulo="Painel" />
+        <Cabecalho titulo="Painel" aoClicarNovaTarefa={() => setFormularioAberto(true)} />
 
         <section className="painel-resumo" aria-label="Resumo">
           <div className="painel-cartoes">
@@ -112,6 +127,13 @@ function Painel() {
           </aside>
         </div>
       </div>
+
+      {formularioAberto && (
+        <FormularioTarefa
+          aoSalvar={adicionarTarefa}
+          aoFechar={() => setFormularioAberto(false)}
+        />
+      )}
     </main>
   )
 }
