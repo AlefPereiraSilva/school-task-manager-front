@@ -1,5 +1,6 @@
 // MenuLateral.jsx: o menu que fica na esquerda do site.
 
+import { useState } from 'react'
 import {
   IconeCalendario,
   IconeConcluido,
@@ -10,16 +11,18 @@ import {
 import './MenuLateral.css'
 
 // Lista com os itens do menu.
-// Se precisarmos adicionar mais itens sõ colocarmos uma linha aqui.
+// Cada item leva para uma parte do painel (o "id" da seção).
 const itensDoMenu = [
   { id: 'painel', nome: 'Painel', icone: <IconePainel /> },
   { id: 'tarefas', nome: 'Tarefas', icone: <IconeTarefas /> },
+  { id: 'entregas', nome: 'Entregas', icone: <IconeCalendario /> },
   { id: 'materias', nome: 'Matérias', icone: <IconeMaterias /> },
-  { id: 'calendario', nome: 'Calendário', icone: <IconeCalendario /> },
 ]
 
-// "paginaAtual" vem do App.jsx e diz qual item fica destacado
-function MenuLateral({ paginaAtual }) {
+function MenuLateral() {
+  // Guarda qual item foi clicado por último, para deixar ele destacado
+  const [itemAtivo, setItemAtivo] = useState('painel')
+
   return (
     <nav className="menu-lateral" aria-label="Menu principal">
       <div className="menu-logo">
@@ -28,21 +31,22 @@ function MenuLateral({ paginaAtual }) {
         </span>
         <span className="menu-logo-nome">Tarefas</span>
       </div>
-      
+
       <div className="menu-itens">
         {itensDoMenu.map((item) => {
-          // Confere se este item é o da página aberta
-          const estaAtivo = item.id === paginaAtual
+          const estaAtivo = item.id === itemAtivo
 
           return (
-            <button
+            <a
               key={item.id}
-              type="button"
+              href={'#' + item.id}
+              aria-current={estaAtivo ? 'true' : undefined}
               className={estaAtivo ? 'menu-item menu-item-ativo' : 'menu-item'}
+              onClick={() => setItemAtivo(item.id)}
             >
               {item.icone}
               {item.nome}
-            </button>
+            </a>
           )
         })}
       </div>

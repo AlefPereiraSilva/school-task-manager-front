@@ -13,6 +13,16 @@
   box-sizing: border-box;
 }
 
+/* Rola a página devagar quando clica no menu */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Deixa um espaço em cima da seção quando o menu leva até ela */
+[id] {
+  scroll-margin-top: 16px;
+}
+
 body {
   margin: 0;
   background: var(--cor-fundo);

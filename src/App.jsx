@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="aplicativo">
       {/* Pagina da esquerda */}
-      <MenuLateral paginaAtual="painel" />
+      <MenuLateral />
 
       {/* Pagina da direita */}
       <Painel />

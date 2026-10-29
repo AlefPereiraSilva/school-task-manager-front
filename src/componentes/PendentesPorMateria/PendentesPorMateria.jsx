@@ -20,7 +20,7 @@ function PendentesPorMateria({ tarefas }) {
   const maior = materias.length > 0 ? materias[0].quantidade : 0
 
   return (
-    <section className="cartao-lateral" aria-label="Pendentes por matéria">
+    <section className="cartao-lateral" id="materias" aria-label="Pendentes por matéria">
       <h2 className="cartao-lateral-titulo">Pendentes por matéria</h2>
 
       {materias.length === 0 ? (

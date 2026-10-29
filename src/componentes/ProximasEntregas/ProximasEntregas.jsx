@@ -11,7 +11,7 @@ function ProximasEntregas({ tarefas, hoje }) {
     .slice(0, 3)
 
   return (
-    <section className="cartao-lateral" aria-label="Próximas entregas">
+    <section className="cartao-lateral" id="entregas" aria-label="Próximas entregas">
       <h2 className="cartao-lateral-titulo">Próximas entregas</h2>
 
       {proximas.length === 0 ? (

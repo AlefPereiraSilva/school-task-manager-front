@@ -93,7 +93,7 @@ function Painel() {
   }
 
   return (
-    <main className="painel">
+    <main className="painel" id="painel">
       <div className="painel-conteudo">
         <Cabecalho titulo="Painel" aoClicarNovaTarefa={() => setFormularioAberto(true)} />
 
@@ -110,7 +110,7 @@ function Painel() {
 
         {/* Lista na esquerda e cartões na direita */}
         <div className="painel-colunas">
-          <section className="painel-tarefas" aria-label="Lista de tarefas">
+          <section className="painel-tarefas" id="tarefas" aria-label="Lista de tarefas">
             <h2 className="painel-subtitulo">Minhas tarefas</h2>
 
             <FiltrosTarefas
