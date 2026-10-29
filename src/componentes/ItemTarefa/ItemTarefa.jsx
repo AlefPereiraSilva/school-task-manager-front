@@ -1,13 +1,8 @@
 // ItemTarefa.jsx: uma linha da lista com uma tarefa.
 
+import { formatarData } from '../../utilitarios/datas.js'
 import { IconeLixeira } from '../Icones/Icones.jsx'
 import './ItemTarefa.css'
-
-// Transforma a data
-function formatarData(data) {
-  const partes = data.split('-')
-  return partes[2] + '/' + partes[1]
-}
 
 function ItemTarefa({ tarefa, hoje, aoMarcar, aoExcluir }) {
   const estaAtrasada = !tarefa.concluida && tarefa.dataEntrega < hoje // quando atrasar

@@ -4,16 +4,11 @@ import Cabecalho from '../../componentes/Cabecalho/Cabecalho.jsx'
 import CartaoResumo from '../../componentes/CartaoResumo/CartaoResumo.jsx'
 import FiltrosTarefas from '../../componentes/FiltrosTarefas/FiltrosTarefas.jsx'
 import ListaTarefas from '../../componentes/ListaTarefas/ListaTarefas.jsx'
+import PendentesPorMateria from '../../componentes/PendentesPorMateria/PendentesPorMateria.jsx'
+import ProximasEntregas from '../../componentes/ProximasEntregas/ProximasEntregas.jsx'
 import tarefasDeExemplo from '../../dados/tarefasDeExemplo.js'
+import { pegarHoje } from '../../utilitarios/datas.js'
 import './Painel.css'
-
-function pegarHoje() {
-  const hoje = new Date()
-  const ano = hoje.getFullYear()
-  const mes = String(hoje.getMonth() + 1).padStart(2, '0')
-  const dia = String(hoje.getDate()).padStart(2, '0')
-  return ano + '-' + mes + '-' + dia
-}
 
 function Painel() {
   // Quando as tarefas mudam a tela atualiza sozinha.
@@ -88,26 +83,34 @@ function Painel() {
           <BarraProgresso concluidas={concluidas.length} total={tarefas.length} />
         </section>
 
-        <section className="painel-tarefas" aria-label="Lista de tarefas">
-          <h2 className="painel-subtitulo">Minhas tarefas</h2>
+        {/* Lista na esquerda e cartões na direita */}
+        <div className="painel-colunas">
+          <section className="painel-tarefas" aria-label="Lista de tarefas">
+            <h2 className="painel-subtitulo">Minhas tarefas</h2>
 
-          <FiltrosTarefas
-            filtros={filtros}
-            filtroAtual={filtro}
-            aoTrocarFiltro={setFiltro}
-            busca={busca}
-            aoBuscar={setBusca}
-            ordem={ordem}
-            aoOrdenar={setOrdem}
-          />
+            <FiltrosTarefas
+              filtros={filtros}
+              filtroAtual={filtro}
+              aoTrocarFiltro={setFiltro}
+              busca={busca}
+              aoBuscar={setBusca}
+              ordem={ordem}
+              aoOrdenar={setOrdem}
+            />
 
-          <ListaTarefas
-            tarefas={tarefasVisiveis}
-            hoje={hoje}
-            aoMarcar={marcarTarefa}
-            aoExcluir={excluirTarefa}
-          />
-        </section>
+            <ListaTarefas
+              tarefas={tarefasVisiveis}
+              hoje={hoje}
+              aoMarcar={marcarTarefa}
+              aoExcluir={excluirTarefa}
+            />
+          </section>
+
+          <aside className="painel-lateral">
+            <ProximasEntregas tarefas={tarefas} hoje={hoje} />
+            <PendentesPorMateria tarefas={tarefas} />
+          </aside>
+        </div>
       </div>
     </main>
   )

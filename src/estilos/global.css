@@ -30,3 +30,26 @@ body {
     flex-direction: column;
   }
 }
+
+/* Cartão da coluna da direita do painel */
+.cartao-lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  background: var(--cor-cartao);
+  border: 1px solid var(--cor-borda);
+  border-radius: 14px;
+}
+
+.cartao-lateral-titulo {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.cartao-lateral-vazio {
+  margin: 0;
+  font-size: 15px;
+  color: var(--cor-texto-fraco);
+}

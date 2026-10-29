@@ -1,0 +1,40 @@
+/* Estilos das pendentes por matéria */
+
+.materias-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.materia {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.materia-topo {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.materia-quantidade {
+  font-weight: 700;
+}
+
+.materia-barra {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--cor-item-ativo);
+  overflow: hidden;
+}
+
+.materia-barra-preenchida {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--cor-destaque);
+}
