@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import BarraProgresso from '../../componentes/BarraProgresso/BarraProgresso.jsx' // página inicial do site.
 import Cabecalho from '../../componentes/Cabecalho/Cabecalho.jsx'
 import CartaoResumo from '../../componentes/CartaoResumo/CartaoResumo.jsx'
@@ -7,17 +7,22 @@ import FormularioTarefa from '../../componentes/FormularioTarefa/FormularioTaref
 import ListaTarefas from '../../componentes/ListaTarefas/ListaTarefas.jsx'
 import PendentesPorMateria from '../../componentes/PendentesPorMateria/PendentesPorMateria.jsx'
 import ProximasEntregas from '../../componentes/ProximasEntregas/ProximasEntregas.jsx'
-import tarefasDeExemplo from '../../dados/tarefasDeExemplo.js'
+import { carregarTarefas, salvarTarefas } from '../../servicos/armazenamento.js'
 import { pegarHoje } from '../../utilitarios/datas.js'
 import './Painel.css'
 
 function Painel() {
   // Quando as tarefas mudam a tela atualiza sozinha.
-  const [tarefas, setTarefas] = useState(tarefasDeExemplo)
+  const [tarefas, setTarefas] = useState(carregarTarefas)
   const [filtro, setFiltro] = useState('todas')
   const [busca, setBusca] = useState('')
   const [ordem, setOrdem] = useState('entrega')
   const [formularioAberto, setFormularioAberto] = useState(false)
+
+  // Sempre que a lista mudar, salva no navegador
+  useEffect(() => {
+    salvarTarefas(tarefas)
+  }, [tarefas])
 
   const hoje = pegarHoje()
   const pendentes = tarefas.filter((tarefa) => !tarefa.concluida)
@@ -51,6 +56,11 @@ function Painel() {
     }
     return a.dataEntrega.localeCompare(b.dataEntrega)
   })
+
+  // Aviso quando a lista estiver vazia
+  const mensagemVazia = tarefas.length === 0
+    ? 'Você ainda não tem tarefas. Clique em "Nova tarefa" para começar.'
+    : 'Nenhuma tarefa encontrada.'
 
   // Marca ou desmarca uma tarefa como concluída
   function marcarTarefa(id) {
@@ -116,6 +126,7 @@ function Painel() {
             <ListaTarefas
               tarefas={tarefasVisiveis}
               hoje={hoje}
+              mensagemVazia={mensagemVazia}
               aoMarcar={marcarTarefa}
               aoExcluir={excluirTarefa}
             />
