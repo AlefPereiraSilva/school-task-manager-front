@@ -27,6 +27,18 @@
   gap: 12px;
 }
 
+.painel-tarefas {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.painel-subtitulo {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
 @media (max-width: 800px) {
   .painel {
     padding: 24px 16px 48px;

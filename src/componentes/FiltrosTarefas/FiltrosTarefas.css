@@ -1,0 +1,56 @@
+/* Estilos dos filtros */
+
+.filtros-tarefas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.filtros-botoes,
+.filtros-campos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filtro {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 999px;
+  background: var(--cor-cartao);
+  color: var(--cor-texto);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.filtro:hover {
+  background: var(--cor-item-ativo);
+}
+
+.filtro-ativo,
+.filtro-ativo:hover {
+  border-color: var(--cor-destaque);
+  background: var(--cor-destaque);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.filtros-busca,
+.filtros-ordem {
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  background: var(--cor-cartao);
+  color: var(--cor-texto);
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.filtros-busca {
+  width: 200px;
+}

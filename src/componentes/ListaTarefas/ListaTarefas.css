@@ -1,18 +1,6 @@
 /* Estilos da lista de tarefas */
 
 .lista-tarefas {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.lista-tarefas-titulo {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.lista-tarefas-itens {
   margin: 0;
   padding: 0;
   list-style: none;
