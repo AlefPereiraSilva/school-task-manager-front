@@ -10,8 +10,7 @@ import {
 } from '../Icones/Icones.jsx'
 import './MenuLateral.css'
 
-// Lista com os itens do menu.
-// Cada item leva para uma parte do painel (o "id" da seção).
+// cada item leva para uma parte do painel
 const itensDoMenu = [
   { id: 'painel', nome: 'Painel', icone: <IconePainel /> },
   { id: 'tarefas', nome: 'Tarefas', icone: <IconeTarefas /> },
@@ -20,11 +19,10 @@ const itensDoMenu = [
 ]
 
 function MenuLateral() {
-  // Guarda qual item foi clicado por último, para deixar ele destacado
-  const [itemAtivo, setItemAtivo] = useState('painel')
+  const [ativo, setAtivo] = useState('painel')
 
   return (
-    <nav className="menu-lateral" aria-label="Menu principal">
+    <nav className="menu-lateral">
       <div className="menu-logo">
         <span className="menu-logo-icone">
           <IconeConcluido />
@@ -33,22 +31,17 @@ function MenuLateral() {
       </div>
 
       <div className="menu-itens">
-        {itensDoMenu.map((item) => {
-          const estaAtivo = item.id === itemAtivo
-
-          return (
-            <a
-              key={item.id}
-              href={'#' + item.id}
-              aria-current={estaAtivo ? 'true' : undefined}
-              className={estaAtivo ? 'menu-item menu-item-ativo' : 'menu-item'}
-              onClick={() => setItemAtivo(item.id)}
-            >
-              {item.icone}
-              {item.nome}
-            </a>
-          )
-        })}
+        {itensDoMenu.map((item) => (
+          <a
+            key={item.id}
+            href={'#' + item.id}
+            className={ativo === item.id ? 'menu-item menu-item-ativo' : 'menu-item'}
+            onClick={() => setAtivo(item.id)}
+          >
+            {item.icone}
+            {item.nome}
+          </a>
+        ))}
       </div>
     </nav>
   )

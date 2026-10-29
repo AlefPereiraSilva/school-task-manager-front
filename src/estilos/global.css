@@ -13,14 +13,8 @@
   box-sizing: border-box;
 }
 
-/* Rola a página devagar quando clica no menu */
 html {
   scroll-behavior: smooth;
-}
-
-/* Deixa um espaço em cima da seção quando o menu leva até ela */
-[id] {
-  scroll-margin-top: 16px;
 }
 
 body {
@@ -41,7 +35,7 @@ body {
   }
 }
 
-/* Cartão da coluna da direita do painel */
+/* cartões da direita */
 .cartao-lateral {
   display: flex;
   flex-direction: column;

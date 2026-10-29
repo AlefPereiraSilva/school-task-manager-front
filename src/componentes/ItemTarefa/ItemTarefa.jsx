@@ -1,11 +1,11 @@
-// ItemTarefa.jsx: uma linha da lista com uma tarefa.
+// uma tarefa da lista
 
 import { formatarData } from '../../utilitarios/datas.js'
 import { IconeLixeira } from '../Icones/Icones.jsx'
 import './ItemTarefa.css'
 
 function ItemTarefa({ tarefa, hoje, aoMarcar, aoExcluir }) {
-  const estaAtrasada = !tarefa.concluida && tarefa.dataEntrega < hoje // quando atrasar
+  const atrasada = !tarefa.concluida && tarefa.dataEntrega < hoje
 
   return (
     <li className="item-tarefa">
@@ -23,22 +23,11 @@ function ItemTarefa({ tarefa, hoje, aoMarcar, aoExcluir }) {
         </span>
       </label>
 
-      {estaAtrasada ? (
-        <span className="item-tarefa-data item-tarefa-atrasada">
-          Atrasada · {formatarData(tarefa.dataEntrega)}
-        </span>
-      ) : (
-        <span className="item-tarefa-data">
-          Entrega {formatarData(tarefa.dataEntrega)}
-        </span>
-      )}
+      <span className={atrasada ? 'item-tarefa-data item-tarefa-atrasada' : 'item-tarefa-data'}>
+        {atrasada ? 'Atrasada' : 'Entrega'} {formatarData(tarefa.dataEntrega)}
+      </span>
 
-      <button
-        type="button"
-        className="item-tarefa-excluir"
-        aria-label="Excluir tarefa"
-        onClick={() => aoExcluir(tarefa.id)}
-      >
+      <button className="item-tarefa-excluir" aria-label="Excluir" onClick={() => aoExcluir(tarefa.id)}>
         <IconeLixeira />
       </button>
     </li>

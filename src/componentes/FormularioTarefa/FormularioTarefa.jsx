@@ -1,4 +1,4 @@
-// Janela com o formulário para criar uma tarefa nova.
+// janela para criar uma tarefa nova
 
 import { useState } from 'react'
 import materias from '../../dados/materias.js'
@@ -10,69 +10,48 @@ function FormularioTarefa({ aoSalvar, aoFechar }) {
   const [dataEntrega, setDataEntrega] = useState('')
   const [erro, setErro] = useState('')
 
-  function salvar(evento) {
-    // Não deixa a página recarregar ao enviar o formulário
-    evento.preventDefault()
+  function salvar(e) {
+    e.preventDefault() // não deixa a página recarregar
 
-    if (titulo.trim() === '' || materia === '' || dataEntrega === '') {
+    if (!titulo || !materia || !dataEntrega) {
       setErro('Preencha todos os campos.')
       return
     }
 
-    aoSalvar({ titulo: titulo.trim(), materia: materia, dataEntrega: dataEntrega })
-  }
-
-  // Fecha a janela com a tecla Esc
-  function verificarTecla(evento) {
-    if (evento.key === 'Escape') {
-      aoFechar()
-    }
+    aoSalvar({ titulo, materia, dataEntrega })
   }
 
   return (
-    <div className="janela-fundo" onKeyDown={verificarTecla}>
-      <form
-        className="janela"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="titulo-janela"
-        onSubmit={salvar}
-      >
-        <h2 id="titulo-janela" className="janela-titulo">Nova tarefa</h2>
+    <div className="janela-fundo">
+      <form className="janela" onSubmit={salvar}>
+        <h2 className="janela-titulo">Nova tarefa</h2>
 
-        <div className="campo">
-          <label htmlFor="campo-titulo">Título</label>
-          <input
-            id="campo-titulo"
-            type="text"
-            placeholder="Ex.: Lista de exercícios"
-            value={titulo}
-            onChange={(evento) => setTitulo(evento.target.value)}
-            autoFocus
-          />
-        </div>
+        <label htmlFor="titulo">Título</label>
+        <input
+          id="titulo"
+          placeholder="Ex.: Lista de exercícios"
+          value={titulo}
+          onChange={(e) => setTitulo(e.target.value)}
+          autoFocus
+        />
 
-        <div className="campo">
-          <label htmlFor="campo-materia">Matéria</label>
-          <select id="campo-materia" value={materia} onChange={(evento) => setMateria(evento.target.value)}>
-            <option value="">Selecione</option>
-            {materias.map((nome) => (
-              <option key={nome} value={nome}>{nome}</option>
-            ))}
-          </select>
-        </div>
+        <label htmlFor="materia">Matéria</label>
+        <select id="materia" value={materia} onChange={(e) => setMateria(e.target.value)}>
+          <option value="">Selecione</option>
+          {materias.map((nome) => (
+            <option key={nome}>{nome}</option>
+          ))}
+        </select>
 
-        <div className="campo">
-          <label htmlFor="campo-data">Data de entrega</label>
-          <input
-            id="campo-data"
-            type="date"
-            value={dataEntrega}
-            onChange={(evento) => setDataEntrega(evento.target.value)}
-          />
-        </div>
+        <label htmlFor="data">Data de entrega</label>
+        <input
+          id="data"
+          type="date"
+          value={dataEntrega}
+          onChange={(e) => setDataEntrega(e.target.value)}
+        />
 
-        {erro !== '' && <p className="janela-erro" role="alert">{erro}</p>}
+        {erro && <p className="janela-erro">{erro}</p>}
 
         <div className="janela-botoes">
           <button type="button" className="botao-secundario" onClick={aoFechar}>

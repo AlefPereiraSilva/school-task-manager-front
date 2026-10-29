@@ -27,7 +27,7 @@
   gap: 12px;
 }
 
-/* Duas colunas. No celular a da direita desce para baixo da lista. */
+/* lista na esquerda e cartões na direita */
 .painel-colunas {
   display: flex;
   flex-wrap: wrap;

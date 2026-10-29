@@ -1,39 +1,43 @@
-// Botões de filtro, campo de busca e ordenação da lista.
+// filtros, busca e ordem da lista
 
 import './FiltrosTarefas.css'
 
-function FiltrosTarefas({ filtros, filtroAtual, aoTrocarFiltro, busca, aoBuscar, ordem, aoOrdenar }) {
+const botoes = [
+  { id: 'todas', nome: 'Todas' },
+  { id: 'pendentes', nome: 'Pendentes' },
+  { id: 'atrasadas', nome: 'Atrasadas' },
+  { id: 'concluidas', nome: 'Concluídas' },
+]
+
+function FiltrosTarefas({ filtro, setFiltro, busca, setBusca, ordem, setOrdem, quantidades }) {
   return (
     <div className="filtros-tarefas">
       <div className="filtros-botoes">
-        {filtros.map((filtro) => (
+        {botoes.map((botao) => (
           <button
-            key={filtro.id}
-            type="button"
-            aria-pressed={filtro.id === filtroAtual}
-            className={filtro.id === filtroAtual ? 'filtro filtro-ativo' : 'filtro'}
-            onClick={() => aoTrocarFiltro(filtro.id)}
+            key={botao.id}
+            className={filtro === botao.id ? 'filtro filtro-ativo' : 'filtro'}
+            onClick={() => setFiltro(botao.id)}
           >
-            {filtro.nome} ({filtro.quantidade})
+            {botao.nome} ({quantidades[botao.id]})
           </button>
         ))}
       </div>
 
       <div className="filtros-campos">
         <input
-          type="search"
           className="filtros-busca"
-          aria-label="Buscar tarefa"
           placeholder="Buscar tarefa"
+          aria-label="Buscar tarefa"
           value={busca}
-          onChange={(evento) => aoBuscar(evento.target.value)}
+          onChange={(e) => setBusca(e.target.value)}
         />
 
         <select
           className="filtros-ordem"
-          aria-label="Ordenar por"
+          aria-label="Ordenar"
           value={ordem}
-          onChange={(evento) => aoOrdenar(evento.target.value)}
+          onChange={(e) => setOrdem(e.target.value)}
         >
           <option value="entrega">Ordenar por entrega</option>
           <option value="materia">Ordenar por matéria</option>

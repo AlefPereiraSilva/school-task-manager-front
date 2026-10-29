@@ -1,6 +1,6 @@
 // Funções de data
 
-// Data de hoje no formato das tarefas: "2026-10-29"
+// data de hoje igual das tarefas: 2026-10-29
 export function pegarHoje() {
   const hoje = new Date()
   const ano = hoje.getFullYear()
@@ -9,7 +9,7 @@ export function pegarHoje() {
   return ano + '-' + mes + '-' + dia
 }
 
-// Transforma "2026-10-20" em "20/10"
+// 2026-10-20 vira 20/10
 export function formatarData(data) {
   const partes = data.split('-')
   return partes[2] + '/' + partes[1]

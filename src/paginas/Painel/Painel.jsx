@@ -7,13 +7,12 @@ import FormularioTarefa from '../../componentes/FormularioTarefa/FormularioTaref
 import ListaTarefas from '../../componentes/ListaTarefas/ListaTarefas.jsx'
 import PendentesPorMateria from '../../componentes/PendentesPorMateria/PendentesPorMateria.jsx'
 import ProximasEntregas from '../../componentes/ProximasEntregas/ProximasEntregas.jsx'
-import { carregarTarefas, salvarTarefas } from '../../servicos/armazenamento.js'
 import { pegarHoje } from '../../utilitarios/datas.js'
 import './Painel.css'
 
 function Painel() {
-  // Quando as tarefas mudam a tela atualiza sozinha.
-  const [tarefas, setTarefas] = useState(carregarTarefas)
+  // pega as tarefas salvas no navegador (se não tiver nada começa vazio)
+  const [tarefas, setTarefas] = useState(() => JSON.parse(localStorage.getItem('tarefas-escolares')) || [])
   const [filtro, setFiltro] = useState('todas')
   const [busca, setBusca] = useState('')
   const [ordem, setOrdem] = useState('entrega')
@@ -21,7 +20,7 @@ function Painel() {
 
   // Sempre que a lista mudar vai salvar no navegador
   useEffect(() => {
-    salvarTarefas(tarefas)
+    localStorage.setItem('tarefas-escolares', JSON.stringify(tarefas))
   }, [tarefas])
 
   const hoje = pegarHoje()
@@ -29,67 +28,36 @@ function Painel() {
   const concluidas = tarefas.filter((tarefa) => tarefa.concluida)
   const atrasadas = pendentes.filter((tarefa) => tarefa.dataEntrega < hoje)
 
-  const filtros = [
-    { id: 'todas', nome: 'Todas', quantidade: tarefas.length, lista: tarefas },
-    { id: 'pendentes', nome: 'Pendentes', quantidade: pendentes.length, lista: pendentes },
-    { id: 'atrasadas', nome: 'Atrasadas', quantidade: atrasadas.length, lista: atrasadas },
-    { id: 'concluidas', nome: 'Concluídas', quantidade: concluidas.length, lista: concluidas },
-  ]
-
   // Vai pegar lista do filtro escolhido
-  const filtroEscolhido = filtros.find((item) => item.id === filtro)
+  let lista = tarefas
+  if (filtro === 'pendentes') lista = pendentes
+  if (filtro === 'atrasadas') lista = atrasadas
+  if (filtro === 'concluidas') lista = concluidas
 
-  // Busca pelo título ou pela matéria
-  const textoBuscado = busca.trim().toLowerCase()
-  const tarefasBuscadas = filtroEscolhido.lista.filter((tarefa) => {
-    const texto = (tarefa.titulo + ' ' + tarefa.materia).toLowerCase()
-    return texto.includes(textoBuscado)
-  })
+  // busca pelo título ou pela matéria
+  lista = lista.filter((tarefa) =>
+    (tarefa.titulo + ' ' + tarefa.materia).toLowerCase().includes(busca.toLowerCase())
+  )
 
-  // Ordena por data de entrega ou por matéria. As concluídas ficam no fim.
-  const tarefasVisiveis = [...tarefasBuscadas].sort((a, b) => {
-    if (a.concluida !== b.concluida) {
-      return a.concluida ? 1 : -1
-    }
-    if (ordem === 'materia') {
-      return a.materia.localeCompare(b.materia)
-    }
+  // ordena por entrega ou por matéria
+  lista = [...lista].sort((a, b) => {
+    if (ordem === 'materia') return a.materia.localeCompare(b.materia)
     return a.dataEntrega.localeCompare(b.dataEntrega)
   })
 
-  // Aviso quando a lista estiver vazia
-  const mensagemVazia = tarefas.length === 0
-    ? 'Você ainda não tem tarefas. Clique em "Nova tarefa" para começar.'
-    : 'Nenhuma tarefa encontrada.'
-
-  // Marca ou desmarca uma tarefa como concluída
   function marcarTarefa(id) {
-    const novasTarefas = tarefas.map((tarefa) => {
-      if (tarefa.id === id) {
-        return { ...tarefa, concluida: !tarefa.concluida }
-      }
-      return tarefa
-    })
-    setTarefas(novasTarefas)
+    setTarefas(tarefas.map((tarefa) =>
+      tarefa.id === id ? { ...tarefa, concluida: !tarefa.concluida } : tarefa
+    ))
   }
 
-  // Coloca a tarefa nova na lista e fecha a janela
-  function adicionarTarefa(dados) {
-    const novaTarefa = {
-      id: Date.now(), // número diferente para cada tarefa
-      titulo: dados.titulo,
-      materia: dados.materia,
-      dataEntrega: dados.dataEntrega,
-      concluida: false,
-    }
-    setTarefas([...tarefas, novaTarefa])
+  function adicionarTarefa(nova) {
+    setTarefas([...tarefas, { ...nova, id: Date.now(), concluida: false }])
     setFormularioAberto(false)
   }
 
-  // Tira a tarefa da lista
   function excluirTarefa(id) {
-    const novasTarefas = tarefas.filter((tarefa) => tarefa.id !== id)
-    setTarefas(novasTarefas)
+    setTarefas(tarefas.filter((tarefa) => tarefa.id !== id))
   }
 
   return (
@@ -97,7 +65,7 @@ function Painel() {
       <div className="painel-conteudo">
         <Cabecalho titulo="Painel" aoClicarNovaTarefa={() => setFormularioAberto(true)} />
 
-        <section className="painel-resumo" aria-label="Resumo">
+        <section className="painel-resumo">
           <div className="painel-cartoes">
             <CartaoResumo nome="Total" valor={tarefas.length} />
             <CartaoResumo nome="Pendentes" valor={pendentes.length} cor="var(--cor-destaque)" />
@@ -108,25 +76,28 @@ function Painel() {
           <BarraProgresso concluidas={concluidas.length} total={tarefas.length} />
         </section>
 
-        {/* Lista na esquerda e cartões na direita */}
         <div className="painel-colunas">
-          <section className="painel-tarefas" id="tarefas" aria-label="Lista de tarefas">
+          <section className="painel-tarefas" id="tarefas">
             <h2 className="painel-subtitulo">Minhas tarefas</h2>
 
             <FiltrosTarefas
-              filtros={filtros}
-              filtroAtual={filtro}
-              aoTrocarFiltro={setFiltro}
+              filtro={filtro}
+              setFiltro={setFiltro}
               busca={busca}
-              aoBuscar={setBusca}
+              setBusca={setBusca}
               ordem={ordem}
-              aoOrdenar={setOrdem}
+              setOrdem={setOrdem}
+              quantidades={{
+                todas: tarefas.length,
+                pendentes: pendentes.length,
+                atrasadas: atrasadas.length,
+                concluidas: concluidas.length,
+              }}
             />
 
             <ListaTarefas
-              tarefas={tarefasVisiveis}
+              tarefas={lista}
               hoje={hoje}
-              mensagemVazia={mensagemVazia}
               aoMarcar={marcarTarefa}
               aoExcluir={excluirTarefa}
             />

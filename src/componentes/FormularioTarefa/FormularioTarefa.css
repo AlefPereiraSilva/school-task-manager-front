@@ -1,6 +1,6 @@
-/* Estilos da janela de nova tarefa */
+/* janela de nova tarefa */
 
-/* Fundo escuro que cobre a tela toda */
+/* fundo escuro atrás da janela */
 .janela-fundo {
   position: fixed;
   inset: 0;
@@ -9,7 +9,6 @@
   justify-content: center;
   padding: 16px;
   background: rgba(21, 24, 30, 0.45);
-  z-index: 10;
 }
 
 .janela {
@@ -17,31 +16,25 @@
   max-width: 480px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
   padding: 28px;
   background: var(--cor-cartao);
   border-radius: 16px;
 }
 
 .janela-titulo {
-  margin: 0;
+  margin: 0 0 8px;
   font-size: 22px;
-  font-weight: 700;
 }
 
-.campo {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.campo label {
+.janela label {
+  margin-top: 8px;
   font-size: 14px;
   font-weight: 600;
 }
 
-.campo input,
-.campo select {
+.janela input,
+.janela select {
   height: 46px;
   padding: 0 12px;
   border: 1px solid var(--cor-borda);
@@ -53,7 +46,7 @@
 }
 
 .janela-erro {
-  margin: 0;
+  margin: 8px 0 0;
   font-size: 14px;
   font-weight: 600;
   color: var(--cor-atrasada);
@@ -63,9 +56,9 @@
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+  margin-top: 16px;
 }
 
-/* Botão branco com borda */
 .botao-secundario {
   min-height: 44px;
   padding: 0 18px;

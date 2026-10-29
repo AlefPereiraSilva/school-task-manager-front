@@ -3,10 +3,9 @@
 import ItemTarefa from '../ItemTarefa/ItemTarefa.jsx'
 import './ListaTarefas.css'
 
-function ListaTarefas({ tarefas, hoje, mensagemVazia, aoMarcar, aoExcluir }) {
-  // Se não tiver nenhuma tarefa mostra um aviso
+function ListaTarefas({ tarefas, hoje, aoMarcar, aoExcluir }) {
   if (tarefas.length === 0) {
-    return <p className="lista-tarefas-vazia">{mensagemVazia}</p>
+    return <p className="lista-tarefas-vazia">Nenhuma tarefa por aqui.</p>
   }
 
   return (
