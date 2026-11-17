@@ -1,8 +1,7 @@
 import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -10,10 +9,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.js',
+  },
   server: {
     port: 5173,
-    // Tudo que comecar com /api vai para o back-end Spring Boot (porta 8080).
-    // No React, chame fetch('/api/tarefas') em vez de http://localhost:8080/...
     proxy: {
       '/api': {
         target: 'http://localhost:8080',
