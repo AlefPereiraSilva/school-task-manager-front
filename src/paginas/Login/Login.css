@@ -1,0 +1,132 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--cor-fundo);
+  padding: 1rem;
+}
+
+.login-box {
+  background-color: var(--cor-cartao);
+  padding: 2.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--cor-borda);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.login-box h2 {
+  margin: 0 0 0.5rem 0;
+  color: var(--cor-texto);
+  font-size: 1.4rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.login-box .campo-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0;
+}
+
+.login-box .campo-grupo label {
+  font-size: 0.9rem;
+  color: var(--cor-texto-fraco);
+  font-weight: 500;
+}
+
+.login-box .campo-grupo input {
+  padding: 0.75rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.login-box .campo-grupo input:focus {
+  border-color: var(--cor-destaque);
+  background-color: var(--cor-cartao);
+}
+
+.login-erro {
+  color: var(--cor-atrasada);
+  font-size: 0.85rem;
+  text-align: center;
+  margin: 0;
+  font-weight: 500;
+}
+
+.login-box .botao-principal {
+  width: 100%;
+  justify-content: center;
+  background-color: var(--cor-destaque);
+  color: #ffffff;
+  border: none;
+  min-height: 44px;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.login-box .botao-principal:hover {
+  opacity: 0.9;
+}
+
+.login-box .alternar-link {
+  text-align: center;
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: var(--cor-texto-fraco);
+}
+
+.login-box .alternar-link span {
+  color: var(--cor-destaque);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.divisor {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 0.25rem 0;
+  color: var(--cor-texto-fraco);
+}
+
+.divisor::before,
+.divisor::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.divisor span {
+  padding: 0 0.75rem;
+  font-size: 0.85rem;
+  text-transform: lowercase;
+}
+
+.google-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.google-btn-wrapper > div {
+  width: 100% !important;
+}

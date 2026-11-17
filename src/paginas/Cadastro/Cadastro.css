@@ -1,0 +1,118 @@
+.cadastro-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--cor-fundo);
+  padding: 1rem;
+}
+
+.cadastro-box {
+  background-color: var(--cor-cartao);
+  padding: 2.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--cor-borda);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cadastro-box h2 {
+  margin: 0 0 0.5rem 0;
+  color: var(--cor-texto);
+  font-size: 1.4rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.cadastro-box .campo-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0;
+}
+
+.cadastro-box .campo-grupo label {
+  font-size: 0.9rem;
+  color: var(--cor-texto-fraco);
+  font-weight: 500;
+}
+
+.cadastro-box .campo-grupo input {
+  padding: 0.75rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.cadastro-box .campo-grupo input:focus {
+  border-color: var(--cor-destaque);
+  background-color: var(--cor-cartao);
+}
+
+.cadastro-erro {
+  color: var(--cor-atrasada);
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin: 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.cadastro-sucesso {
+  color: #15803d;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin: 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.cadastro-box .botao-principal {
+  width: 100%;
+  justify-content: center;
+  margin-top: 0.5rem;
+  background-color: var(--cor-destaque);
+  color: #ffffff;
+  border: none;
+  min-height: 44px;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.cadastro-box .botao-principal:hover {
+  opacity: 0.9;
+}
+
+.cadastro-box .alternar-link {
+  text-align: center;
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--cor-texto-fraco);
+}
+
+.cadastro-box .alternar-link span {
+  color: var(--cor-destaque);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
