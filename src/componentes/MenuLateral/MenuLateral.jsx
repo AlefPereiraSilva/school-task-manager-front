@@ -1,50 +1,78 @@
-// MenuLateral.jsx: o menu que fica na esquerda do site.
-
 import { useState } from 'react'
-import {
-  IconeCalendario,
-  IconeConcluido,
-  IconeMaterias,
-  IconePainel,
-  IconeTarefas,
-} from '../Icones/Icones.jsx'
+import { useNavigate, useLocation } from 'react-router-dom'
+import ModalExcluirConta from '../ModalExcluirConta/ModalExcluirConta.jsx'
 import './MenuLateral.css'
 
-// cada item leva para uma parte do painel
-const itensDoMenu = [
-  { id: 'painel', nome: 'Painel', icone: <IconePainel /> },
-  { id: 'tarefas', nome: 'Tarefas', icone: <IconeTarefas /> },
-  { id: 'entregas', nome: 'Entregas', icone: <IconeCalendario /> },
-  { id: 'materias', nome: 'Matérias', icone: <IconeMaterias /> },
-]
-
 function MenuLateral() {
-  const [ativo, setAtivo] = useState('painel')
+    const [modalExcluirAberto, setModalExcluirAberto] = useState(false)
+    const navigate = useNavigate()
+    const location = useLocation()
+    const nomeUsuario = localStorage.getItem('nomeUsuario') || 'Estudante'
 
-  return (
-    <nav className="menu-lateral">
-      <div className="menu-logo">
-        <span className="menu-logo-icone">
-          <IconeConcluido />
-        </span>
-        <span className="menu-logo-nome">Tarefas</span>
-      </div>
+    function handleLogout() {
+        localStorage.removeItem('token')
+        localStorage.removeItem('nomeUsuario')
+        navigate('/login')
+    }
 
-      <div className="menu-itens">
-        {itensDoMenu.map((item) => (
-          <a
-            key={item.id}
-            href={'#' + item.id}
-            className={ativo === item.id ? 'menu-item menu-item-ativo' : 'menu-item'}
-            onClick={() => setAtivo(item.id)}
-          >
-            {item.icone}
-            {item.nome}
-          </a>
-        ))}
-      </div>
-    </nav>
-  )
+    return (
+        <aside className="menu-lateral">
+            <div className="perfil-usuario">
+                <div className="avatar">
+                    {nomeUsuario.charAt(0).toUpperCase()}
+                </div>
+                <div className="info">
+                    <h3>{nomeUsuario}</h3>
+                    <span>Aluno</span>
+                </div>
+            </div>
+
+            <nav className="menu-links">
+                <button
+                    type="button"
+                    className={`link-item ${location.pathname === '/painel' ? 'active' : ''}`}
+                    onClick={() => navigate('/painel')}
+                >
+                    📋 Minhas Tarefas
+                </button>
+
+                <button
+                    type="button"
+                    className={`link-item ${location.pathname === '/calendario' ? 'active' : ''}`}
+                    onClick={() => navigate('/calendario')}
+                >
+                    📅 Calendário
+                </button>
+
+                <button
+                    type="button"
+                    className={`link-item ${location.pathname === '/avaliacoes' ? 'active' : ''}`}
+                    onClick={() => navigate('/avaliacoes')}
+                >
+                    📝 Avaliações e Notas
+                </button>
+            </nav>
+
+            <div className="menu-rodape">
+                <button
+                    type="button"
+                    className="botao-excluir-conta"
+                    onClick={() => setModalExcluirAberto(true)}
+                >
+                    🗑️ Excluir Conta
+                </button>
+
+                <button type="button" className="botao-sair" onClick={handleLogout}>
+                    🚪 Sair da Conta
+                </button>
+            </div>
+
+            <ModalExcluirConta
+                aberto={modalExcluirAberto}
+                aoFechar={() => setModalExcluirAberto(false)}
+            />
+        </aside>
+    )
 }
 
 export default MenuLateral

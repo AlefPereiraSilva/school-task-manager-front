@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import BarraProgresso from '../../componentes/BarraProgresso/BarraProgresso.jsx' // página inicial do site.
+import BarraProgresso from '../../componentes/BarraProgresso/BarraProgresso.jsx'
 import Cabecalho from '../../componentes/Cabecalho/Cabecalho.jsx'
 import CartaoResumo from '../../componentes/CartaoResumo/CartaoResumo.jsx'
 import FiltrosTarefas from '../../componentes/FiltrosTarefas/FiltrosTarefas.jsx'
@@ -7,57 +7,101 @@ import FormularioTarefa from '../../componentes/FormularioTarefa/FormularioTaref
 import ListaTarefas from '../../componentes/ListaTarefas/ListaTarefas.jsx'
 import PendentesPorMateria from '../../componentes/PendentesPorMateria/PendentesPorMateria.jsx'
 import ProximasEntregas from '../../componentes/ProximasEntregas/ProximasEntregas.jsx'
+import api from '../../servicos/api.js'
 import { pegarHoje } from '../../utilitarios/datas.js'
 import './Painel.css'
 
 function Painel() {
-  // pega as tarefas salvas no navegador (se não tiver nada começa vazio)
-  const [tarefas, setTarefas] = useState(() => JSON.parse(localStorage.getItem('tarefas-escolares')) || [])
+
+  const [tarefas, setTarefas] = useState([])
   const [filtro, setFiltro] = useState('todas')
   const [busca, setBusca] = useState('')
   const [ordem, setOrdem] = useState('entrega')
   const [formularioAberto, setFormularioAberto] = useState(false)
 
-  // Sempre que a lista mudar vai salvar no navegador
+  async function carregarTarefas() {
+    try {
+      const resposta = await api.get('/tarefas')
+      setTarefas(resposta.data)
+    } catch (erro) {
+      console.error('Erro ao carregar tarefas do servidor:', erro)
+    }
+  }
+
   useEffect(() => {
-    localStorage.setItem('tarefas-escolares', JSON.stringify(tarefas))
-  }, [tarefas])
+    let ativo = true
+
+    async function buscarInicial() {
+      try {
+        const resposta = await api.get('/tarefas')
+        if (ativo) {
+          setTarefas(resposta.data)
+        }
+      } catch (erro) {
+        console.error('Erro ao carregar tarefas do servidor:', erro)
+      }
+    }
+
+    buscarInicial()
+    return () => {
+      ativo = false
+    }
+  }, [])
+
+  function obterNomeMateria(tarefa) {
+    if (!tarefa.materia) return ''
+    return typeof tarefa.materia === 'object' ? (tarefa.materia.nome || '') : String(tarefa.materia)
+  }
 
   const hoje = pegarHoje()
-  const pendentes = tarefas.filter((tarefa) => !tarefa.concluida)
-  const concluidas = tarefas.filter((tarefa) => tarefa.concluida)
-  const atrasadas = pendentes.filter((tarefa) => tarefa.dataEntrega < hoje)
+  const pendentes = tarefas.filter((tarefa) => !tarefa.concluida && tarefa.status !== 'CONCLUIDA')
+  const concluidas = tarefas.filter((tarefa) => tarefa.concluida || tarefa.status === 'CONCLUIDA')
+  const atrasadas = pendentes.filter((tarefa) => (tarefa.dataEntrega || '').slice(0, 10) < hoje)
 
-  // Vai pegar lista do filtro escolhido
   let lista = tarefas
   if (filtro === 'pendentes') lista = pendentes
   if (filtro === 'atrasadas') lista = atrasadas
   if (filtro === 'concluidas') lista = concluidas
 
-  // busca pelo título ou pela matéria
   lista = lista.filter((tarefa) =>
-    (tarefa.titulo + ' ' + tarefa.materia).toLowerCase().includes(busca.toLowerCase())
+    (tarefa.titulo + ' ' + obterNomeMateria(tarefa)).toLowerCase().includes(busca.toLowerCase())
   )
 
-  // ordena por entrega ou por matéria
   lista = [...lista].sort((a, b) => {
-    if (ordem === 'materia') return a.materia.localeCompare(b.materia)
-    return a.dataEntrega.localeCompare(b.dataEntrega)
+    if (ordem === 'materia') return obterNomeMateria(a).localeCompare(obterNomeMateria(b))
+    return (a.dataEntrega || '').localeCompare(b.dataEntrega || '')
   })
 
-  function marcarTarefa(id) {
-    setTarefas(tarefas.map((tarefa) =>
-      tarefa.id === id ? { ...tarefa, concluida: !tarefa.concluida } : tarefa
-    ))
+  async function marcarTarefa(id) {
+    try {
+      const tarefaAtual = tarefas.find(t => t.id === id)
+      if (!tarefaAtual) return
+
+      const jaConcluida = tarefaAtual.concluida || tarefaAtual.status === 'CONCLUIDA'
+      const novoStatus = !jaConcluida
+
+      const resposta = await api.put(`/tarefas/${id}`, {
+        titulo: tarefaAtual.titulo,
+        descricao: tarefaAtual.descricao,
+        dataEntrega: tarefaAtual.dataEntrega,
+        materiaId: tarefaAtual.materia?.id ?? tarefaAtual.materiaId ?? null,
+        prioridade: tarefaAtual.prioridade,
+        status: novoStatus ? 'CONCLUIDA' : 'PENDENTE',
+      })
+
+      setTarefas(tarefas.map((tarefa) => (tarefa.id === id ? resposta.data : tarefa)))
+    } catch (erro) {
+      console.error('Erro ao atualizar tarefa:', erro)
+    }
   }
 
-  function adicionarTarefa(nova) {
-    setTarefas([...tarefas, { ...nova, id: Date.now(), concluida: false }])
-    setFormularioAberto(false)
-  }
-
-  function excluirTarefa(id) {
-    setTarefas(tarefas.filter((tarefa) => tarefa.id !== id))
+  async function excluirTarefa(id) {
+    try {
+      await api.delete(`/tarefas/${id}`)
+      setTarefas(tarefas.filter((tarefa) => tarefa.id !== id))
+    } catch (erro) {
+      console.error('Erro ao excluir tarefa:', erro)
+    }
   }
 
   return (
@@ -112,7 +156,7 @@ function Painel() {
 
       {formularioAberto && (
         <FormularioTarefa
-          aoSalvar={adicionarTarefa}
+          aoSalvarSucesso={carregarTarefas}
           aoFechar={() => setFormularioAberto(false)}
         />
       )}

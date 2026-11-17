@@ -1,18 +1,19 @@
-// quantas pendentes tem em cada matéria
-
 import './PendentesPorMateria.css'
 
 function PendentesPorMateria({ tarefas }) {
-  // ex: { Física: 2, História: 1 }
   const contagem = {}
   tarefas.forEach((tarefa) => {
-    if (!tarefa.concluida) {
-      contagem[tarefa.materia] = (contagem[tarefa.materia] || 0) + 1
+    const concluida = Boolean(tarefa.concluida || tarefa.status === 'CONCLUIDA')
+    if (!concluida) {
+      const nomeMateria = typeof tarefa.materia === 'object'
+        ? (tarefa.materia?.nome || 'Sem matéria')
+        : (tarefa.materia || 'Sem matéria')
+      contagem[nomeMateria] = (contagem[nomeMateria] || 0) + 1
     }
   })
 
   const materias = Object.keys(contagem)
-  const maior = Math.max(...Object.values(contagem))
+  const maior = materias.length > 0 ? Math.max(...Object.values(contagem)) : 1
 
   return (
     <section className="cartao-lateral" id="materias">

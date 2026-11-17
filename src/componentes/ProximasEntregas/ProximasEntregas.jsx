@@ -1,12 +1,14 @@
-// as 3 próximas entregas
-
 import { formatarData } from '../../utilitarios/datas.js'
 import './ProximasEntregas.css'
 
 function ProximasEntregas({ tarefas, hoje }) {
   const proximas = tarefas
-    .filter((tarefa) => !tarefa.concluida && tarefa.dataEntrega >= hoje)
-    .sort((a, b) => a.dataEntrega.localeCompare(b.dataEntrega))
+    .filter((tarefa) => {
+      const concluida = Boolean(tarefa.concluida || tarefa.status === 'CONCLUIDA')
+      const dataLimpa = (tarefa.dataEntrega || '').slice(0, 10)
+      return !concluida && dataLimpa >= hoje
+    })
+    .sort((a, b) => (a.dataEntrega || '').localeCompare(b.dataEntrega || ''))
     .slice(0, 3)
 
   return (
@@ -16,15 +18,22 @@ function ProximasEntregas({ tarefas, hoje }) {
       {proximas.length === 0 && <p className="cartao-lateral-vazio">Nada por enquanto.</p>}
 
       <ul className="proximas-lista">
-        {proximas.map((tarefa) => (
-          <li key={tarefa.id} className="proxima">
-            <span className="proxima-data">{formatarData(tarefa.dataEntrega)}</span>
-            <span className="proxima-textos">
-              <span className="proxima-titulo">{tarefa.titulo}</span>
-              <span className="proxima-materia">{tarefa.materia}</span>
-            </span>
-          </li>
-        ))}
+        {proximas.map((tarefa) => {
+          const dataLimpa = (tarefa.dataEntrega || '').slice(0, 10)
+          const nomeMateria = typeof tarefa.materia === 'object'
+            ? (tarefa.materia?.nome || 'Sem matéria')
+            : (tarefa.materia || 'Sem matéria')
+
+          return (
+            <li key={tarefa.id} className="proxima">
+              <span className="proxima-data">{formatarData(dataLimpa)}</span>
+              <span className="proxima-textos">
+                <span className="proxima-titulo">{tarefa.titulo}</span>
+                <span className="proxima-materia">{nomeMateria}</span>
+              </span>
+            </li>
+          )
+        })}
       </ul>
     </section>
   )
