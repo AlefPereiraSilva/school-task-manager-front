@@ -1,0 +1,120 @@
+.calendario-pagina {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--cor-fundo, #f8fafc);
+}
+
+.calendario-conteudo {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.calendario-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.calendario-controles {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.calendario-btn-nav {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: #334155;
+}
+
+.calendario-btn-nav:hover {
+  background: #f1f5f9;
+}
+
+.calendario-mes-titulo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-transform: capitalize;
+  min-width: 180px;
+  text-align: center;
+}
+
+.calendario-grade {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.calendario-dia-semana {
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #64748b;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.calendario-celula {
+  min-height: 105px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: #ffffff;
+}
+
+.calendario-celula.vazia {
+  background: #f8fafc;
+  border-color: transparent;
+}
+
+.calendario-celula.hoje {
+  border: 2px solid #2563eb;
+  background: #eff6ff;
+}
+
+.calendario-numero-dia {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.calendario-evento {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.45rem;
+  border-radius: 6px;
+  color: #ffffff;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendario-evento.avaliacao {
+  border-left: 4px solid #0f172a;
+  font-weight: 700;
+}
+
+.calendario-legenda {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #475569;
+}
