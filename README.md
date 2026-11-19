@@ -4,12 +4,14 @@ Interface web desenvolvida em **React** e **Vite** para organização visual da 
 
 ---
 
-## 🌐 Acesso Online (Deploy em Produção)
+## 🌐 Acesso Online e Gestão do Projeto
 
 * **Aplicação Web (Vercel):** https://school-task-manager-front.vercel.app
 * **Documentação Interativa da API (Swagger UI):** https://school-task-manager-api.onrender.com/swagger-ui/index.html
 * **Especificação OpenAPI 3 (JSON):** https://school-task-manager-api.onrender.com/v3/api-docs
-* **Repositório do Banco de Dados (PostgreSQL + Docker):** https://github.com/Gerenciador-de-Tarefas-Escolares/Gerenciador-tarefa-banco.git
+* **Repositório do Back-end (Spring Boot):** https://github.com/Gerenciador-de-Tarefas-Escolares/school-task-manager-api
+* **Repositório do Banco de Dados (PostgreSQL + Docker):** https://github.com/Gerenciador-de-Tarefas-Escolares/Gerenciador-tarefa-banco
+* **Planejamento Ágil (Kanban — GitHub Projects):** https://github.com/users/AlefPereiraSilva/projects/1/views/1
 
 > **Nota para avaliação:** O back-end está hospedado em plano gratuito (Render) e entra em modo de suspensão após 15 minutos sem uso. Caso a primeira requisição demore cerca de 30 a 50 segundos, aguarde o carregamento inicial do servidor.
 
